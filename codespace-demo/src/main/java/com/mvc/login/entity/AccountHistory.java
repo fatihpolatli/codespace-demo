@@ -21,6 +21,9 @@ public class AccountHistory {
 	@JoinColumn(name="account_id")
 	private UserAccount account;
 	
+	@Column(name="action_date")
+	private Long actionDate;
+	
 	private Long amount;
 	
 	private Integer type;

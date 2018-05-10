@@ -43,7 +43,7 @@ public class AccountHistoryDao implements IAccountHistoryDao {
 	@Override
 	public Set<AccountHistory> findByAccount(UserAccount account) {
 		// TODO Auto-generated method stub
-		return repository.findByAccount(account);
+		return repository.findByAccountOrderByActionDateDesc(account);
 	}
 
 }

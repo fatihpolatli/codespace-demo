@@ -12,6 +12,8 @@ public interface AccountHistoryRespository extends JpaRepository<AccountHistory,
 
 
 	Set<AccountHistory> findByAccount(UserAccount account);
+
+	Set<AccountHistory> findByAccountOrderByActionDateDesc(UserAccount account);
 	 
    
 }
