@@ -59,7 +59,7 @@ create table PUBLIC.group_members (
  	 account_id bigint not null, 	 
       amount bigint not null,
       type int not null,
-      action_date bigint DEFAULT GETDATE(),
+      action_date timestamp default 'now',
        constraint fk_account_log foreign key(account_id) references user_account);
       
   

@@ -22,7 +22,8 @@ public class AccountHistory {
 	private UserAccount account;
 	
 	@Column(name="action_date")
-	private Long actionDate;
+	private Long actionDate = System.currentTimeMillis();
+	
 	
 	private Long amount;
 	
@@ -60,7 +61,14 @@ public class AccountHistory {
 		this.type = type;
 	}
 
-	
+	public Long getActionDate() {
+		return actionDate;
+	}
+
+	public void setActionDate(Long actionDate) {
+		this.actionDate = actionDate;
+	}
+
 	
 
 }
