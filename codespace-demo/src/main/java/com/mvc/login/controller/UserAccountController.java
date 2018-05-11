@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mvc.login.dto.BalanceDto;
+import com.mvc.login.dto.TransferDto;
 import com.mvc.login.entity.UserAccount;
 import com.mvc.login.service.IMoneyTypesService;
 import com.mvc.login.service.IUserService;
@@ -81,6 +82,18 @@ public class UserAccountController {
 		try {
 
 			return new GenericResponse(null, null, userService.getAccountHistory(balance));
+		} catch (Exception e) {
+			return new GenericResponse(e.getMessage(), "error");
+		}
+
+	}
+	
+	@PostMapping(value = "/transfer")
+	public GenericResponse transferMoney(@RequestBody TransferDto transferData) {
+
+		try {
+
+			return new GenericResponse(null, null, userService.transferMoney(transferData));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}

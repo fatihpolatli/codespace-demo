@@ -7,6 +7,8 @@ import com.mvc.login.entity.UserAccount;
 public interface UserAccountRespository extends JpaRepository<UserAccount, Long> {
 
 	UserAccount findByMoneyTypeId(Long accountTypeId);
+
+	UserAccount findByMoneyTypeIdAndUserId(Long accountId, Long userId);
 	 
    
 }

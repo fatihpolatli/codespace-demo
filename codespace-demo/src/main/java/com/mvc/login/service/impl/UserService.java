@@ -1,6 +1,7 @@
 package com.mvc.login.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -11,20 +12,23 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mvc.login.dao.IAccountHistoryDao;
+import com.mvc.login.dao.IUserAccountDao;
 import com.mvc.login.dao.IUserDao;
 import com.mvc.login.dao.impl.MoneyTypesDao;
-import com.mvc.login.dao.impl.UserAccountDao;
 import com.mvc.login.dto.BalanceDto;
+import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.MoneyTypes;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
+import com.mvc.login.entity.UserWithoutPassword;
 import com.mvc.login.enums.AccountTransactionType;
 import com.mvc.login.exception.AccountAlreadyExistException;
 import com.mvc.login.exception.DuplicateEmailException;
 import com.mvc.login.exception.NoUserException;
 import com.mvc.login.exception.NotEnoughBalanceException;
+import com.mvc.login.exception.TransactionActionException;
 import com.mvc.login.service.IUserService;
 
 @Service
@@ -33,7 +37,7 @@ public class UserService implements IUserService {
 	private IUserDao userDao;
 
 	@Autowired
-	private UserAccountDao userAccountDao;
+	private IUserAccountDao userAccountDao;
 	
 	@Autowired
 	private IAccountHistoryDao accountHistoryDao;
@@ -94,7 +98,15 @@ public class UserService implements IUserService {
 
 		Long accountTypeId = account.getMoneyType().getId();
 
-		UserAccount existingAccount = getAccountInfo(accountTypeId);
+		UserAccount existingAccount = null;
+		try {
+			
+			existingAccount  = getAccountInfo(accountTypeId, user.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 
 		if (existingAccount != null) {
 
@@ -129,9 +141,9 @@ public class UserService implements IUserService {
 		return findByUserName(username);
 	}
 
-	private UserAccount getAccountInfo(Long accountId) throws Exception {
+	private UserAccount getAccountInfo(Long accountId, Long userId) throws Exception {
 
-		return userAccountDao.findByAccountType(accountId);
+		return userAccountDao.findByAccountTypeAndUserId(accountId, userId);
 	}
 
 	@Override
@@ -151,7 +163,14 @@ public class UserService implements IUserService {
 
 		User user = getUserInfo();
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getId());
+		return addSubtractBalanceByUser(user, balance);
+
+	}
+	
+	public Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception {
+
+
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
 
 		Long currentBalance = userAccount.getBalance();
 
@@ -189,7 +208,7 @@ public class UserService implements IUserService {
 		
 		User user = getUserInfo();
 		
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getId(), user.getId());
 		
 		return userAccount.getBalance();
 	}
@@ -199,9 +218,48 @@ public class UserService implements IUserService {
 		
 		User user = getUserInfo();
 		
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getId(), user.getId());
 		
 		return accountHistoryDao.findByAccount(userAccount);
+	}
+
+	@Override
+	public List<UserWithoutPassword> getUserList() {
+		// TODO Auto-generated method stub
+		return userDao.findAll();
+	}
+
+	@Override	
+	public Boolean transferMoney(TransferDto transferData) throws Exception {
+		// TODO Auto-generated method stub
+		
+		User targetUser = userDao.findByUsername(transferData.getTargetUser().getFirstName());
+		
+		BalanceDto balanceData = transferData.getBalance();
+		
+		balanceData.setType(AccountTransactionType.SUBTRACT);
+		
+		Boolean subtractResult = addSubtractBalance(balanceData);
+		
+		if(!subtractResult) {
+			
+			throw new TransactionActionException();
+		}
+		
+		balanceData.setType(AccountTransactionType.ADD);
+		
+		balanceData.setAccount(transferData.getTargetAccount());
+		
+		
+		
+		Boolean additionResult = addSubtractBalanceByUser(targetUser, balanceData);
+		
+		if(!additionResult) {
+			
+			throw new TransactionActionException();
+		}
+		
+		return true;
 	}
 
 }

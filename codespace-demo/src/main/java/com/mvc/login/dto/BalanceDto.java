@@ -1,12 +1,13 @@
 package com.mvc.login.dto;
 
+import com.mvc.login.entity.UserAccount;
 import com.mvc.login.enums.AccountTransactionType;
 
 public class BalanceDto {
 	
 	private Long amount;
 	
-	private UserAccountDto account;
+	private UserAccount account;
 	
 	private AccountTransactionType type;
 
@@ -18,11 +19,11 @@ public class BalanceDto {
 		this.amount = amount;
 	}
 
-	public UserAccountDto getAccount() {
+	public UserAccount getAccount() {
 		return account;
 	}
 
-	public void setAccount(UserAccountDto account) {
+	public void setAccount(UserAccount account) {
 		this.account = account;
 	}
 
