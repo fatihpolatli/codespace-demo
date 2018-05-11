@@ -22,8 +22,8 @@ public class MoneyTypesService implements IMoneyTypesService{
 	}
 
 	@Override
-	public void save(MoneyTypes moneyType) {
-		moneyTypesDao.save(moneyType);
+	public MoneyTypes save(MoneyTypes moneyType) {
+		return moneyTypesDao.save(moneyType);
 		
 	}
 

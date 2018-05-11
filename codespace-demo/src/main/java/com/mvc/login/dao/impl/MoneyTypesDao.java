@@ -23,8 +23,8 @@ public class MoneyTypesDao implements IMoneyTypesDao{
 	}
 
 	@Override
-	public void save(MoneyTypes moneyType) {
-		repository.save(moneyType);
+	public MoneyTypes save(MoneyTypes moneyType) {
+		return repository.save(moneyType);
 		
 	}
 	

@@ -8,6 +8,6 @@ public interface IMoneyTypesService {
 
 	List<MoneyTypes> getMoneyTypes();
 
-	void save(MoneyTypes moneyType);
+	MoneyTypes save(MoneyTypes moneyType);
 
 }

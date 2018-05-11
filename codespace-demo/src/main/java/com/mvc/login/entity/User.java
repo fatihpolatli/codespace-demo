@@ -1,5 +1,6 @@
 package com.mvc.login.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,8 +31,8 @@ public class User {
     
     @OneToMany
     @JoinColumn(name="user_id", nullable=true)
-    private Set<UserAccount> accounts;
-    
+    private Set<UserAccount> accounts = new HashSet<UserAccount>(); 
+     
 	public Long getId() {
 		return id;
 	}

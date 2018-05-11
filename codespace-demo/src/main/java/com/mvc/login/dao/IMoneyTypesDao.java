@@ -9,7 +9,7 @@ public interface IMoneyTypesDao {
 	
 	List<MoneyTypes> getMoneyTypes();
 
-	void save(MoneyTypes moneyType);
+	MoneyTypes save(MoneyTypes moneyType);
 
 	MoneyTypes findById(Long id) throws NoCurrencyTypeException;
 
