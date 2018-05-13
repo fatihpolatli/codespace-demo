@@ -90,9 +90,11 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Boolean deleteAcount(UserAccount account) {
+	public Boolean deleteAccount(UserAccount account) throws Exception {
 		// TODO Auto-generated method stub
-		return  userAccountDao.delete(account);
+		
+		User user = getUserInfo();
+		return  userAccountDao.delete(user.getId(), account.getMoneyType().getId());
 	}
 	
 	@Override

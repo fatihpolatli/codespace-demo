@@ -168,6 +168,8 @@ public class MvcLoginDemoApplicationTests {
 				.perform(post("/restful/accounts/delete").contentType(MediaType.APPLICATION_JSON)
 						.content(asJsonString(account2)))
 				.andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.data", is(true)));
+		
+		System.out.println("it is over");
 
 	}
 

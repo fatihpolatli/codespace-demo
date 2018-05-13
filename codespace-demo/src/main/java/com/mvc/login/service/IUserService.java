@@ -37,6 +37,6 @@ public interface IUserService {
 
 	Boolean loadBalance(BalanceDto balance) throws Exception;
 
-	Boolean deleteAcount(UserAccount account);
+	Boolean deleteAccount(UserAccount account) throws Exception;
 
 }

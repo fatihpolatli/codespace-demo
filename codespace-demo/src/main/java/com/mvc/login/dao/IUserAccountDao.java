@@ -11,6 +11,6 @@ public interface IUserAccountDao {
 
 	UserAccount findByAccountTypeAndUserId(Long accountId, Long userId) throws NoUserAccountException;
 
-	Boolean delete(UserAccount account);
+	Boolean delete(Long userId, Long moneyTypeId);
 
 }

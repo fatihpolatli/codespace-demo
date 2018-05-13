@@ -1,5 +1,7 @@
 package com.mvc.login.dao.impl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,7 @@ import com.mvc.login.exception.NoUserAccountException;
 import com.mvc.login.repository.UserAccountRespository;
 
 @Component
+@Transactional
 public class UserAccountDao implements IUserAccountDao{
 	
 	@Autowired
@@ -40,12 +43,16 @@ public class UserAccountDao implements IUserAccountDao{
 		return account;
 	}
 
-	@Override
-	public Boolean delete(UserAccount account) {
+	@Override	
+	public Boolean delete(Long userId, Long moneyTypeId) {
 		// TODO Auto-generated method stub
-		repository.delete(account);
+		UserAccount persistentData = repository.findOneByUserIdAndMoneyTypeId(userId, moneyTypeId);
 		
-		return !repository.existsById(account.getId());
+		persistentData.setIsDeleted(1);
+		
+		repository.save(persistentData);
+		
+		return true;
 	}
 
 }

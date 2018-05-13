@@ -41,7 +41,7 @@ public class UserAccountController {
 	public GenericResponse deleteUserAccount(@RequestBody UserAccount account) {
 
 		try {
-			userService.deleteAcount(account);
+			userService.deleteAccount(account);
 			return new GenericResponse(null, null, true);
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");

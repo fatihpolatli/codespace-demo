@@ -52,6 +52,7 @@ create table PUBLIC.group_members (
  	 user_id bigint not null,
  	 account_type bigint not null,
       balance bigint not null,
+      is_deleted int not null default 0,
        constraint fk_user_account foreign key(user_id) references user);
        
         create table PUBLIC.account_history(

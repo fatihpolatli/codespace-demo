@@ -9,6 +9,10 @@ public interface UserAccountRespository extends JpaRepository<UserAccount, Long>
 	UserAccount findByMoneyTypeId(Long accountTypeId);
 
 	UserAccount findByMoneyTypeIdAndUserId(Long accountId, Long userId);
+
+	void deleteByUserIdAndMoneyTypeId(Long userId, Long moneyTypeId);
+
+	UserAccount findOneByUserIdAndMoneyTypeId(Long userId, Long moneyTypeId);
 	 
    
 }
