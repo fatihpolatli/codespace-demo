@@ -237,6 +237,8 @@ public class UserService implements IUserService {
 		
 		BalanceDto balanceData = transferData.getBalance();
 		
+		balanceData.setAccount(transferData.getTargetAccount());
+		
 		balanceData.setType(AccountTransactionType.SUBTRACT);
 		
 		Boolean subtractResult = addSubtractBalance(balanceData);
