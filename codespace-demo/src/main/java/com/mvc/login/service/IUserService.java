@@ -35,4 +35,8 @@ public interface IUserService {
 
 	Boolean transferMoney(TransferDto transferData) throws Exception;
 
+	Boolean loadBalance(BalanceDto balance) throws Exception;
+
+	Boolean deleteAcount(UserAccount account);
+
 }

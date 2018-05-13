@@ -36,6 +36,18 @@ public class UserAccountController {
 		}
 
 	}
+	
+	@PostMapping(value = "/delete")
+	public GenericResponse deleteUserAccount(@RequestBody UserAccount account) {
+
+		try {
+			userService.deleteAcount(account);
+			return new GenericResponse(null, null, true);
+		} catch (Exception e) {
+			return new GenericResponse(e.getMessage(), "error");
+		}
+
+	}
 
 	@GetMapping(value = "/list")
 	public GenericResponse getUserAccounts() {
@@ -94,6 +106,18 @@ public class UserAccountController {
 		try {
 
 			return new GenericResponse(null, null, userService.transferMoney(transferData));
+		} catch (Exception e) {
+			return new GenericResponse(e.getMessage(), "error");
+		}
+
+	}
+	
+	@PostMapping(value = "/loadBalance")
+	public GenericResponse loadBalance(@RequestBody BalanceDto balance) {
+
+		try {
+
+			return new GenericResponse(null, null, userService.loadBalance(balance));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}

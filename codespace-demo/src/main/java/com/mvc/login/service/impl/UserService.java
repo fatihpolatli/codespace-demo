@@ -29,6 +29,7 @@ import com.mvc.login.exception.DuplicateEmailException;
 import com.mvc.login.exception.NoUserException;
 import com.mvc.login.exception.NotEnoughBalanceException;
 import com.mvc.login.exception.TransactionActionException;
+import com.mvc.login.mock.BalanceLoader;
 import com.mvc.login.service.IUserService;
 
 @Service
@@ -88,6 +89,12 @@ public class UserService implements IUserService {
 		return registered;
 	}
 
+	@Override
+	public Boolean deleteAcount(UserAccount account) {
+		// TODO Auto-generated method stub
+		return  userAccountDao.delete(account);
+	}
+	
 	@Override
 	@Transactional
 	public User addAcount(UserAccount account) throws Exception {
@@ -233,11 +240,10 @@ public class UserService implements IUserService {
 	public Boolean transferMoney(TransferDto transferData) throws Exception {
 		// TODO Auto-generated method stub
 		
-		User targetUser = userDao.findByUsername(transferData.getTargetUser().getFirstName());
+		User targetUser = userDao.findByUsername(transferData.getTargetUser().getUsername());
 		
 		BalanceDto balanceData = transferData.getBalance();
 		
-		balanceData.setAccount(transferData.getTargetAccount());
 		
 		balanceData.setType(AccountTransactionType.SUBTRACT);
 		
@@ -263,5 +269,22 @@ public class UserService implements IUserService {
 		
 		return true;
 	}
+
+	@Override
+	public Boolean loadBalance(BalanceDto balance) throws Exception {
+		// TODO Auto-generated method stub
+		Boolean result = BalanceLoader.loadBalance();
+		
+		if(result) {
+			
+			balance.setType(AccountTransactionType.ADD);
+			
+			return addSubtractBalance(balance);
+		}
+		
+		return false;
+	}
+
+	
 
 }

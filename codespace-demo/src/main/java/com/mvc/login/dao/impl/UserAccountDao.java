@@ -40,4 +40,12 @@ public class UserAccountDao implements IUserAccountDao{
 		return account;
 	}
 
+	@Override
+	public Boolean delete(UserAccount account) {
+		// TODO Auto-generated method stub
+		repository.delete(account);
+		
+		return !repository.existsById(account.getId());
+	}
+
 }

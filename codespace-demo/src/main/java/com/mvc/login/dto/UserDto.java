@@ -14,7 +14,13 @@ import com.mvc.login.validation.ValidPassword;
 
 public class UserDto {
 	
-    @NotNull
+	private Long id;
+	
+	private String username;
+
+	
+
+	@NotNull
     @NotEmpty
     @Length(min=3, message="username have to be more than 3 characters")
     private String firstName;
@@ -34,6 +40,22 @@ public class UserDto {
     
     @Nullable
     private List<UserAccount> accounts;
+    
+    public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+    
+    public Long getId() {
+  		return id;
+  	}
+
+  	public void setId(Long id) {
+  		this.id = id;
+  	}
 
 	public String getFirstName() {
 		return firstName;
