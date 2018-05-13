@@ -3,6 +3,7 @@ package com.mvc.login.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,27 +17,27 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="USER")
+@Table(name = "USER")
 public class User {
- 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
- 
-    @Column(nullable = false, unique = true)
-    private String username;
- 
-    @JsonIgnore
-    private String password;
-    
-    private String email;
-    
-    private String enabled = "true";
-    
-    @OneToMany(fetch=FetchType.EAGER)
-    @JoinColumn(name="user_id", nullable=true)
-    private Set<UserAccount> accounts = new HashSet<UserAccount>(); 
-     
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	@JsonIgnore
+	private String password;
+
+	private String email;
+
+	private String enabled = "true";
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private Set<UserAccount> accounts = new HashSet<UserAccount>();
+
 	public Long getId() {
 		return id;
 	}
@@ -85,8 +86,4 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	
-	
-	
- 
 }

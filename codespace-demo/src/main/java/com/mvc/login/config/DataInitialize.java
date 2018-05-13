@@ -14,6 +14,7 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.MoneyTypes;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
+import com.mvc.login.exception.NoUserException;
 import com.mvc.login.service.IMoneyTypesService;
 import com.mvc.login.service.IUserService;
 
@@ -33,7 +34,7 @@ public class DataInitialize {
 	IUserAccountDao userAccountDao;
 
 	@PostConstruct
-	private void init() {
+	private void init() throws Exception {
 
 		MoneyTypes t = new MoneyTypes();
 		t.setId(1L);
@@ -59,25 +60,25 @@ public class DataInitialize {
 		u2.setFirstName("test12345");
 		u2.setPassword("Test200.");
 		u2.setMatchingPassword("Test2000.");
-
+		
 		UserAccount ac = new UserAccount();
 		ac.setMoneyType(tt);
+	
 		
 		UserAccount ac2 = new UserAccount();
-		ac.setMoneyType(tt);
-
-		UserAccount acc = userAccountDao.save(ac);
+		ac2.setMoneyType(tt);
+		ac2.setBalance(1000L);
+		
+		//UserAccount acc = userAccountDao.save(ac);
 
 		
-		UserAccount acc2 = userAccountDao.save(ac2);
-
-		List<UserAccount> ls = new ArrayList<UserAccount>();
-
-		ls.add(acc);
+		//UserAccount acc2 = userAccountDao.save(ac2);
 		
-		List<UserAccount> ls2 = new ArrayList<UserAccount>();
 
-		ls2.add(acc2);
+		
+		
+		
+
 
 		User registeredUser = null;
 		
@@ -89,9 +90,11 @@ public class DataInitialize {
 			e.printStackTrace();
 		}
 		
-		registeredUser.getAccounts().addAll(ls);
+		ac.setUserId(registeredUser.getId());
+		
+		
+		userAccountDao.save(ac);
 
-		User result = userDao.save(registeredUser);
 		
 		User registeredUser2 = null;
 
@@ -102,12 +105,15 @@ public class DataInitialize {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		registeredUser2.getAccounts().addAll(ls2);
-
-		User result2 = userDao.save(registeredUser2);
+		
+		
+		
+		ac2.setUserId(registeredUser2.getId());
 		
 
+		userAccountDao.save(ac2);
+		
+		System.out.println(((UserAccount) userService.findByUserName("test12345").getAccounts().toArray()[0]).getUserId());
 	}
 
 }

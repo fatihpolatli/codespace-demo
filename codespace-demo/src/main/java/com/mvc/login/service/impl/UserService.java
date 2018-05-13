@@ -215,7 +215,7 @@ public class UserService implements IUserService {
 		
 		User user = getUserInfo();
 		
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getId(), user.getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
 		
 		return userAccount.getBalance();
 	}
@@ -225,7 +225,7 @@ public class UserService implements IUserService {
 		
 		User user = getUserInfo();
 		
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getId(), user.getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
 		
 		return accountHistoryDao.findByAccount(userAccount);
 	}
