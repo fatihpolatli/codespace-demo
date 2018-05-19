@@ -1,8 +1,5 @@
 package com.mvc.login.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.MoneyTypes;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.exception.NoUserException;
 import com.mvc.login.service.IMoneyTypesService;
 import com.mvc.login.service.IUserService;
 

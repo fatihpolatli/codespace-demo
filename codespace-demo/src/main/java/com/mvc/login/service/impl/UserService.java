@@ -153,6 +153,7 @@ public class UserService implements IUserService {
 	private UserAccount getAccountInfo(Long accountId, Long userId) throws Exception {
 
 		return userAccountDao.findByAccountTypeAndUserId(accountId, userId);
+		
 	}
 
 	@Override
@@ -239,6 +240,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override	
+	@Transactional
 	public Boolean transferMoney(TransferDto transferData) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -249,25 +251,15 @@ public class UserService implements IUserService {
 		
 		balanceData.setType(AccountTransactionType.SUBTRACT);
 		
-		Boolean subtractResult = addSubtractBalance(balanceData);
-		
-		if(!subtractResult) {
-			
-			throw new TransactionActionException();
-		}
-		
+		addSubtractBalance(balanceData);
+	
 		balanceData.setType(AccountTransactionType.ADD);
 		
 		balanceData.setAccount(transferData.getTargetAccount());
 		
 		
+		addSubtractBalanceByUser(targetUser, balanceData);
 		
-		Boolean additionResult = addSubtractBalanceByUser(targetUser, balanceData);
-		
-		if(!additionResult) {
-			
-			throw new TransactionActionException();
-		}
 		
 		return true;
 	}
